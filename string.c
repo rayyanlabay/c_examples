@@ -19,7 +19,7 @@ RETURN VALUE:
  
 STATUS: DONE
 ******************************************************************************/
-size_t StrLen(const char *str)
+size_t strlen(const char *str)
 {
 	const char* end = str;
 	while(*end++);
@@ -35,7 +35,7 @@ RETURN VALUE:
  * >0 if str1 > str2  
 STATUS: DONE
 ******************************************************************************/
-int StrCmp (const char *str1, const char *str2)
+int strcmp(const char *str1, const char *str2)
 {
 	while(*str1 && *str1++ == *str2++ );
 	return *str1 - *str2;	
@@ -48,7 +48,7 @@ RETURN VALUE:
  * pointer to dst, where copied value is.
 STATUS: DONE
 ******************************************************************************/
-char *StrCpy(char *dest, const char *src)
+char *strcpy(char *dest, const char *src)
 {
 	char* dest_t = dest;
 	while(*src)
@@ -67,7 +67,7 @@ RETURN VALUE:
  * if n > len(src), then dst will be padded untill length is n.
 STATUS: DONE
 ******************************************************************************/
-char *StrNCpy(char *dest, const char *src, size_t n)
+char *strncpy(char *dest, const char *src, size_t n)
 {
 	char *dest_t = dest;
 	size_t i = 0;
@@ -91,7 +91,7 @@ RETURN VALUE:
  * >0 if str1 > str2 
 STATUS: DONE
 ******************************************************************************/
-int StrCaseCmp(const char *str1, const char *str2)
+int strcasecmp(const char *str1, const char *str2)
 {
 	while(tolower(*(str1++)) == tolower(*(str2++)) && !( *str1 == '\0' || 
 	*str2 == '\0'));
@@ -107,7 +107,7 @@ RETURN VALUE:
  * NULL if c doesnt appear in str. 
 STATUS: DONE
 ******************************************************************************/
-char *StrChr( const char *str, int c )
+char *strchr( const char *str, int c )
 {
 	while(*str != c && *str != '\0')
 	{
@@ -126,7 +126,7 @@ RETURN VALUE:
 STATUS: DONE
 NOTE: test doesnt work
 ******************************************************************************/
-char * StrDup( const char *str )
+char *strdup( const char *str )
 {
 	int len = strlen(str) + 1;
 	char* newstr = (char*)malloc(len);
@@ -142,7 +142,7 @@ RETURN VALUE:
  * pointer to dest. 
 STATUS: DONE
 ******************************************************************************/
-char *StrCat(char *dest, const char *src)
+char *strcat(char *dest, const char *src)
 {
 	char *dest_t = dest;
 	if(!src) return dest;
@@ -161,7 +161,7 @@ RETURN VALUE:
  * pointer to dest. 
 STATUS: DONE
 ******************************************************************************/
-char *StrNCat(char *dest, const char *src, size_t n)
+char *strncat(char *dest, const char *src, size_t n)
 {
 	char *dest_t = dest;
 	if(!src) return NULL;
@@ -181,7 +181,7 @@ RETURN VALUE:
  * NULL if needle not found in haystack.
 STATUS: DONE
 ******************************************************************************/
-char *StrStr(const char *haystack, const char *needle)
+char *strstr(const char *haystack, const char *needle)
 {
 	int j = 0, needle_len = strlen(needle);
 	while(*haystack++)
@@ -206,7 +206,7 @@ RETURN VALUE:
  * 1 if c found.
  * 0 if c was not found.
 ******************************************************************************/
-static int IsInStr(char* str, char c)
+static int is_in_str(char* str, char c)
 {
 	while(*str != c && *str != '\0' ) str++;
 	return *str == '\0' ? 0 : 1;
@@ -220,12 +220,12 @@ RETURN VALUE:
  * as described above.
 STATUS: DONE
 ******************************************************************************/
-size_t StrSpn(const char *str1, const char *str2)
+size_t strspn(const char *str1, const char *str2)
 {
 	int seen = 0;
 	while(*str1)
 	{
-		if(! IsInStr((char*)str2, *str1++))
+		if(! is_in_str((char*)str2, *str1++))
 		{
 			if(seen > 0)
 				return seen;
