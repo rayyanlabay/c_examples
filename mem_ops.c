@@ -18,16 +18,16 @@ my implementation of memset, memcpy and memmove
 /*******************************************************************************
 *	DECLARATIONS 
 *******************************************************************************/
-static size_t InitWordMask(unsigned char c);
+static size_t init_word_mask(unsigned char c);
 
-void *Memset(void *dest, int c, size_t n_bytes);
-void *Memcpy(void *dest, const void *src, size_t n_bytes);
-void *Memmove(void *dest, const void *src, size_t n_bytes);
+void *memset(void *dest, int c, size_t n_bytes);
+void *memcpy(void *dest, const void *src, size_t n_bytes);
+void *memmove(void *dest, const void *src, size_t n_bytes);
 /*******************************************************************************
 *	DESCRIPTION:	static function that initializes a word size duplication
 *					of the character c. 
 *******************************************************************************/
-static size_t InitWordMask(unsigned char c)
+static size_t init_word_mask(unsigned char c)
 {
 	size_t res = c;
 	res = res | (res << CHAR_BIT) | (res << 2*CHAR_BIT) | res << (3*CHAR_BIT);
@@ -35,7 +35,7 @@ static size_t InitWordMask(unsigned char c)
 	return res;
 }
 
-void *Memset(void *dest, int c, size_t n_bytes)
+void *memset(void *dest, int c, size_t n_bytes)
 {
 	unsigned char *char_ptr = (unsigned char*)dest;
 	size_t *word_ptr = (size_t*)dest;
@@ -48,7 +48,7 @@ void *Memset(void *dest, int c, size_t n_bytes)
 	size_t num_right_chars = (n_bytes - num_left_chars)%8;
 	
 	/* words_mask - word size duplication of the character c */
-	size_t word_mask = InitWordMask(c); 
+	size_t word_mask = init_word_mask(c); 
 	
 
 	while(num_left_chars)
@@ -80,7 +80,7 @@ void *Memset(void *dest, int c, size_t n_bytes)
 	return dest;
 }
 
-void *Memcpy(void *dest, const void *src, size_t n_bytes)
+void *memcpy(void *dest, const void *src, size_t n_bytes)
 {
 	unsigned char *dest_char_ptr = (unsigned char*)dest;
 	unsigned char *src_char_ptr = (unsigned char*)src;
@@ -117,7 +117,7 @@ void *Memcpy(void *dest, const void *src, size_t n_bytes)
 	return dest;
 }
 
-void *Memmove(void *dest, const void *src, size_t n_bytes)
+void *memmove(void *dest, const void *src, size_t n_bytes)
 {
 	unsigned char *dest_char_ptr = (unsigned char*)dest;
 	unsigned char *src_char_ptr = (unsigned char*)src;
@@ -125,7 +125,7 @@ void *Memmove(void *dest, const void *src, size_t n_bytes)
 	   
 	if(dest_char_ptr < src_char_ptr)
 	{
-		return Memcpy(dest, src, n_bytes);
+		return memcpy(dest, src, n_bytes);
 	}
 	
 	while(n_bytes)
