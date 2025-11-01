@@ -10,14 +10,11 @@ my own string library implementation
 #include "String.h" /* string functions */
 #define MAX_TOKEN_NUMBER 100
 /******************************************************************************
-DESCRIPTION:
-returns the length of a given string. 
+desc:       calculate the length of a string excluding the terminating
+            null byte ('\0').
 
-RETURN VALUE:
- * length of a given string.
- * 0 if string is NULL.
- 
-STATUS: DONE
+ret val:    the strlen() function returns the number of bytes in the
+            string pointed to by s.
 ******************************************************************************/
 size_t strlen(const char *str)
 {
@@ -26,14 +23,15 @@ size_t strlen(const char *str)
 	return !str ? (size_t) NULL : (size_t) (end - str - 1);	
 }
 /****************************************************************************** 
-DESCRIPTION:
-Compares 2 strings lexicographically. 
+desc:   compare two strings
+retval: integer indicating the result of the comparison, as follows:
 
-RETURN VALUE:
- * 0  if str1 == str2
- * <0 if str1 < str2
- * >0 if str1 > str2  
-STATUS: DONE
+       • 0, if the s1 and s2 are equal;
+       • a negative value if s1 is less than s2;
+       • a positive value if s1 is greater than s2.
+
+       The  strncmp() function is similar, except it compares only the first (at most) n bytes of
+       s1 and s2.
 ******************************************************************************/
 int strcmp(const char *str1, const char *str2)
 {
@@ -41,12 +39,14 @@ int strcmp(const char *str1, const char *str2)
 	return *str1 - *str2;	
 }
 /****************************************************************************** 
-DESCRIPTION:
-Copies one src string to dst. 
+desc:       copy a string
+            The  strcpy() function copies the string pointed to by src, including the terminating null
+            byte ('\0'), to the buffer pointed to by dest. 
+            the strncpy() function is similar, except that at most n bytes of src are  copied.  
 
-RETURN VALUE:
- * pointer to dst, where copied value is.
-STATUS: DONE
+            if the length of src is less than n, strncpy() writes additional null bytes to dest to en‐
+            sure that a total of n bytes are written.
+ret val:    a pointer to the destination string dest.
 ******************************************************************************/
 char *strcpy(char *dest, const char *src)
 {
@@ -58,15 +58,7 @@ char *strcpy(char *dest, const char *src)
 	*dest = '\0';
 	return dest_t;
 }
-/****************************************************************************** 
-DESCRIPTION:
-Copies one src string to dst, up to n elements. 
 
-RETURN VALUE:
- * pointer to dst, where copied value is.
- * if n > len(src), then dst will be padded untill length is n.
-STATUS: DONE
-******************************************************************************/
 char *strncpy(char *dest, const char *src, size_t n)
 {
 	char *dest_t = dest;
@@ -81,15 +73,17 @@ char *strncpy(char *dest, const char *src, size_t n)
 	return dest_t;	
 }
 /****************************************************************************** 
-DESCRIPTION:
-Compares 2 strings neglecting lower or upper case.
+desc:   compare two strings ignoring case
+        The  strcasecmp() function performs a byte-by-byte comparison of the strings s1 and s2,
+        ignoring the case of the characters. It returns an integer less than, equal to,
+        or greater than zero if s1 is found, respectively, to be less than, to match,
+        or be greater than s2. The strncasecmp() function is similar, except that it compares
+        no more than n bytes of s1 and s2.
 
-
-RETURN VALUE:
- * 0  if str1 == str2
- * <0 if str1 < str2
- * >0 if str1 > str2 
-STATUS: DONE
+ret val:
+       strcasecmp() and strncasecmp() functions return an integer
+       less than, equal to, or greater than zero if s1 is, after ignoring case,
+       found to be less than, to match, or be greater than s2, respectively.
 ******************************************************************************/
 int strcasecmp(const char *str1, const char *str2)
 {
@@ -98,14 +92,10 @@ int strcasecmp(const char *str1, const char *str2)
 	return *str1 > *str2 ? 1 : *str1 < *str2 ? -1 : 0;	
 }
 /****************************************************************************** 
-DESCRIPTION:
-returns pointer to the first location where c appears in str.
+desc:       locate character in string
 
-
-RETURN VALUE:
- * pointer to the first location where c appears in str.
- * NULL if c doesnt appear in str. 
-STATUS: DONE
+ret val:    a pointer to the first occurrence of the character c in the string
+            str.
 ******************************************************************************/
 char *strchr( const char *str, int c )
 {
@@ -116,15 +106,10 @@ char *strchr( const char *str, int c )
 	return (char*)str;
 }
 /****************************************************************************** 
-DESCRIPTION:
-duplicates str to another location, allocates new memory and pastes it there. 
-
-
-RETURN VALUE:
- * pointer to the allocated memory where the duplicated value is.
- * NULL if str is NULL. 
-STATUS: DONE
-NOTE: test doesnt work
+desc:       duplicate a string
+ret val:    on success, the strdup() function returns a pointer to the
+            duplicated string.  It returns NULL if insufficient memory was
+            available, with errno set to indicate the cause of the error.
 ******************************************************************************/
 char *strdup( const char *str )
 {
@@ -134,13 +119,9 @@ char *strdup( const char *str )
 	return strcpy(newstr, str);
 }
 /****************************************************************************** 
-DESCRIPTION:
-Concatenates two strings, src at the end of dest, doesnt allocate new memory.
+desc:       concatenate two strings
 
-
-RETURN VALUE:
- * pointer to dest. 
-STATUS: DONE
+ret val:    a pointer to the resulting string dest.
 ******************************************************************************/
 char *strcat(char *dest, const char *src)
 {
@@ -151,16 +132,7 @@ char *strcat(char *dest, const char *src)
 	strcpy(dest, src);
 	return dest_t;	
 }
-/****************************************************************************** 
-DESCRIPTION:
-Concatenates two strings, src at the end of dest, up to n elements.
-Doesnt allocate new memory.
 
-
-RETURN VALUE:
- * pointer to dest. 
-STATUS: DONE
-******************************************************************************/
 char *strncat(char *dest, const char *src, size_t n)
 {
 	char *dest_t = dest;
@@ -171,15 +143,10 @@ char *strncat(char *dest, const char *src, size_t n)
 	return dest_t;	
 }
 /****************************************************************************** 
-DESCRIPTION:
-Finds the location of the substring needle in haystack and returns pointer to
-it.
+desc:       locate a substring
 
-
-RETURN VALUE:
- * pointer to first appearance of needle in haystack. 
- * NULL if needle not found in haystack.
-STATUS: DONE
+ret val:    a pointer to the beginning of the located substring,
+            or NULL if the substring is not found.
 ******************************************************************************/
 char *strstr(const char *haystack, const char *needle)
 {
@@ -198,28 +165,17 @@ char *strstr(const char *haystack, const char *needle)
 	}
 	return NULL;
 }
-/****************************************************************************** 
-DESCRIPTION:
-static function, finds if c is in str.
 
-RETURN VALUE:
- * 1 if c found.
- * 0 if c was not found.
+/****************************************************************************** 
+desc: get length of a prefix substring
+
+ret val: returns the number of bytes in the initial segment of s which consist only of bytes from accept.
 ******************************************************************************/
 static int is_in_str(char* str, char c)
 {
 	while(*str != c && *str != '\0' ) str++;
 	return *str == '\0' ? 0 : 1;
 }
-/****************************************************************************** 
-DESCRIPTION:
-Counts how many characters from the begining of str1 are from the set of 
-unique(str2), if str2 = "ABB", set(str2) = {A,B}.
-
-RETURN VALUE:
- * as described above.
-STATUS: DONE
-******************************************************************************/
 size_t strspn(const char *str1, const char *str2)
 {
 	int seen = 0;
